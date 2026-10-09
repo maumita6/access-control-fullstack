@@ -1,0 +1,111 @@
+<div class="list-container">
+    <h2 class="text-xl font-normal text-gray-900 mb-6">My Requests</h2>
+
+    @if (isLoading()) {
+    <p class="loading">Loading requests...</p>
+    } @else {
+    <table class="min-w-full divide-y divide-gray-200 bg-white text-base shadow rounded-lg overflow-hidden">
+        <thead class="bg-gray-50">
+            <tr>
+                <th scope="col" class="px-6 py-3.5 text-left font-bold text-gray-900 tracking-wider">ID</th>
+                <th scope="col" class="px-6 py-3.5 text-left font-bold text-gray-900 tracking-wider">Request Name</th>
+                <th scope="col" class="px-6 py-3.5 text-left font-bold text-gray-900 tracking-wider">System</th>
+                <th scope="col" class="px-6 py-3.5 text-left font-bold text-gray-900 tracking-wider">Access</th>
+                <th scope="col" class="px-6 py-3.5 text-left font-bold text-gray-900 tracking-wider">Risk</th>
+                <th scope="col" class="px-6 py-3.5 text-left font-bold text-gray-900 tracking-wider">Status</th>
+                <th scope="col" class="px-6 py-3.5 text-left font-bold text-gray-900 tracking-wider">Action</th>
+
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200 font-mono text-sm">
+            @for (req of requests(); track req._id) {
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 whitespace-nowrap text-blue-700 font-medium">
+                    <button class="id-link" (click)="viewDetails(req._id)">
+                        {{ req._id }}
+                    </button>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ req.requestName }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">{{ req.system }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">{{ req.access }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-gray-600">
+                    <span class="badge risk-{{ req.risk | lowercase  }}">
+                        {{ req.risk }}
+                    </span>
+                </td>
+                <td>
+                    <span class="badge status-{{ req.status | lowercase  }}">
+                        @if (req.status === 'REJECTED') {
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200">
+                            {{ req.status }}
+
+                        </span>
+                        } @else if (req.status === 'APPROVED') {
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800 border border-green-200">
+                            {{ req.status }}
+
+                        </span>
+                        } @else {
+                        <!-- Fallback badge for Pending/Other states -->
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800 border border-gray-200">
+                            {{ req.status }}
+                        </span>
+                        }
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right font-sans text-sm">
+                    @if (req.status !== 'APPROVED') {
+                    <button (click)="openDeleteDialog(req._id)"
+                        class="text-red-600 hover:text-red-900 font-medium transition-colors focus:outline-none">
+                        Delete
+                    </button>
+                    }
+
+                </td>
+            </tr>
+            } @empty {
+            <tr>
+                <td colspan="5" class="empty-state">No requests found. Raise a request above!</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+</div>
+
+@if (isModalOpen()) {
+<div #confirmModal
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity animate-fade-in"
+    role="dialog" aria-modal="true">
+    <div
+        class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm mx-4 transform scale-100 transition-all border border-gray-100">
+
+        <!-- Header -->
+        <div class="flex items-center gap-3 mb-3">
+
+            <h3 class="text-lg font-bold text-gray-800">Delete Request</h3>
+        </div>
+
+        <!-- Explanatory Warning Context Message -->
+        <p class="text-sm text-gray-600 mb-6 leading-relaxed">
+            Are you sure you want to delete this request? This action cannot be undone.
+        </p>
+
+        <div class="flex flex-col gap-2 sm:flex-row-reverse sm:gap-3">
+
+            <button (click)="confirmDelete()" type="button" #confirmDeleteButton
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium text-sm rounded-lg shadow-sm transition-colors w-full sm:w-auto">
+                Confirm Delete
+            </button>
+            <button (click)="closeModal()" type="button" #cancelButton
+                class="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 font-medium text-sm rounded-lg border border-gray-300 shadow-sm transition-colors w-full sm:w-auto">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+</div>
+}

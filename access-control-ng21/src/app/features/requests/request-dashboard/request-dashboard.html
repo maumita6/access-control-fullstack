@@ -1,0 +1,4 @@
+<div class="max-w-7xl mx-auto p-8 font-sans text-gray-800 selection:bg-blue-100">
+    <app-request-form (requestCreated)="loadRequests()" /><br />
+    <app-request-list [requests]="requests()" (deleteClicked)="deleteRequestFun($event)" />
+</div>

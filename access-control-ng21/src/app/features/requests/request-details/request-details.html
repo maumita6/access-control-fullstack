@@ -1,0 +1,163 @@
+<div class="max-w-3xl mx-auto p-6 bg-gray-50 shadow-md rounded-lg mt-8">
+    <!-- Header -->
+    @if (request(); as req) {
+    <button onclick="history.back()"
+        class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+            xmlns="http://w3.org">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back
+    </button>
+    <div class="border-b pb-4 mb-8 mt-12">
+        <h2 class="text-xl font-normal text-gray-600 mb-6">Request&nbsp;<span
+                class="text-2xl font-medium text-gray-800">
+                <code>#{{ req._id }}</code></span></h2>
+        <p class="text-sm text-gray-500 font-medium">System: <span class="text-gray-800 font-semibold">
+                <code>{{ req.system }}</code> </span></p>
+    </div>
+
+
+    <!-- Request Details -->
+    <div class="grid grid-cols-2 gap-4 mb-8 text-sm text-gray-700">
+        <div class="font-base text-gray-500">Request Name</div>
+        <div class="font-semibold text-blue-600 font-mono">{{ req.requestName }}</div>
+        <div class="font-base text-gray-500">Access Type</div>
+        <div class="font-semibold">{{ req.access }}</div>
+
+        <div class="font-base text-gray-500">Max Duration</div>
+        <div class="font-semibold">{{ req.duration }} hours</div>
+
+        <div class="font-base text-gray-500">Risk Assessment</div>
+        <div>
+            <span
+                class="px-2.5 py-0.5 text-xs font-semibold rounded-full uppercase border border-red-200 bg-red-100 text-red-700 px-3 py-1 rounded transition">
+                {{ req.risk }}
+            </span>
+        </div>
+
+        <div class="font-base text-gray-500">Overall Status</div>
+        <div>
+
+            @if (req.status === 'APPROVED') {
+            <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full uppercase bg-green-100 text-green-700">
+                {{ req.status}}
+            </span>
+            } @else if(req.status === 'PENDING') {
+            <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full uppercase bg-yellow-100 text-yellow-700">
+                {{ req.status}}
+            </span>
+            } @else {
+            <span class="px-2.5 py-0.5 text-xs font-semibold rounded-full uppercase bg-red-100 text-red-700">
+                {{ req.status}}
+            </span>
+            }
+        </div>
+    </div>
+
+    <div class="border-t pt-6">
+        <h3 class="text-md font-bold text-gray-800 mb-4  uppercase tracking-wider text-xs">Approval Workflow</h3>
+
+        <div class="space-y-4">
+            <!-- Manager Phase Row -->
+            <div class="flex items-center justify-between bg-gray-100 p-4 -50 rounded-lg border border-gray-300">
+                <div class="flex items-center gap-3">
+                    <!--<span class="text-green-600 font-bold">✓</span>-->
+                    <span class="text-sm font-semibold text-gray-700">Manager Approval</span>
+                </div>
+                <div>
+                    @if (req.managerApproval === 'PENDING') {
+                    <button (click)="openConfirmationModal('MANAGER')"
+                        class="px-4 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded transition">
+                        Take Action
+                    </button>
+                    } @else {
+
+                    @if (req.status === 'APPROVED') {
+                    <span
+                        class="text-xs font-bold uppercase tracking-wider bg-green-600 hover:bg-green-700 text-green-100 px-3 py-1 rounded transition">
+                        {{ req.managerApproval}}
+                    </span>
+                    }@else{
+                    <span
+                        class="text-xs font-bold uppercase tracking-wider bg-red-600 hover:bg-red-700 text-red-100 px-3 py-1 rounded transition">
+                        {{ req.managerApproval}} </span>
+                    }
+                    }
+                </div>
+            </div>
+
+            <!-- Security Phase  -->
+            <div class="flex items-center justify-between p-4 bg-gray-100 rounded-lg border border-gray-300"
+                [class.opacity-50]="securityLocked()">
+                <div class="flex items-center gap-3">
+                    <!-- <span class="text-gray-400">○</span>-->
+                    <span class="text-sm font-semibold text-gray-700">Security Approval</span>
+                </div>
+                <div>
+
+                    @if (securityLocked()) {
+                    <span
+                        class="text-xs font-bold uppercase tracking-wider text-gray-400 bg-gray-200 px-3 py-1 rounded">Locked</span>
+                    }
+                    @else if (
+                    req.managerApproval === 'APPROVED' &&
+                    req.securityApproval === 'PENDING'
+                    ){
+                    <!--<span class="text-xs font-bold uppercase tracking-wider text-blue-600">Active Phase</span>-->
+                    <button (click)="openConfirmationModal('SECURITY')"
+                        class="px-4 py-1.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded transition">
+                        Take Action
+                    </button>
+                    } @else {
+                    <span
+                        class="text-xs font-bold uppercase tracking-wider bg-green-600 hover:bg-green-700 text-green-100 px-3 py-1 rounded transition">
+                        {{ req.securityApproval}}</span>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else {
+    <div class="text-center py-8 text-gray-500">Fetching access details...</div>
+    }
+</div>
+
+<!-- Security decision modal -->
+@if (isModalOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity animate-fade-in"
+    role="dialog" aria-modal="true">
+    <div
+        class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm mx-4 transform scale-100 transition-all border border-gray-100">
+
+        <!-- Header -->
+        <div class="flex items-center gap-3 mb-3">
+
+            <h3 class="text-lg font-bold text-gray-800">Review Request Action</h3>
+        </div>
+
+        <p class="text-sm text-gray-600 mb-6 leading-relaxed">
+            Please specify an approval decision for this production request access path.
+        </p>
+
+        <div class="flex flex-col gap-2 sm:flex-row-reverse sm:gap-3">
+            <button (click)="confirmDecision('APPROVED')"
+                class="w-full sm:flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 text-sm rounded-lg shadow-sm hover:shadow transition-all duration-150">
+                Approve
+            </button>
+
+            <button (click)="confirmDecision('REJECTED')"
+                class="w-full sm:flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 text-sm rounded-lg shadow-sm hover:shadow transition-all duration-150">
+                Reject
+            </button>
+
+            <button (click)="closeModal()"
+                class="w-full sm:flex-1 mt-2 sm:mt-0 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 text-sm rounded-lg border border-gray-200 transition-all duration-150">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+</div>
+}

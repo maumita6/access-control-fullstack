@@ -1,0 +1,11 @@
+/* component.css */
+.text-danger {
+    color: #dc3545;
+    font-weight: 600;
+    ;
+}
+
+.text-success {
+    color: #198754;
+    font-weight: 600;
+}

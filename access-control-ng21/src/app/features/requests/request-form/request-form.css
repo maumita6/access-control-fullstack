@@ -1,0 +1,16 @@
+.text-gradient {
+    background: linear-gradient(90deg, #0511f8, #821d03);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+
+    display: inline-block;
+}
+
+.border-gradient {
+    border: 4px solid transparent;
+    border-image: linear-gradient(90deg, #eeeeee, #dddddd) 1;
+}
