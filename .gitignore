@@ -6,8 +6,10 @@
 /out-tsc
 /bazel-out
 
+
 # Ignore dependency folders globally
 **/node_modules/
+
 
 # Node
 /node_modules
