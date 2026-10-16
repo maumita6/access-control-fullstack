@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const Request = require('./models/Request');
 require('dotenv').config();
 
+const PORT = process.env.PORT || 3000;
+
+
 console.log('Mongo URI:', process.env.MONGO_URI);
 
 const app = express();
@@ -15,8 +18,9 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(error => console.error('MongoDB connection failed', error));
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
 });
 
 // Endpoint : Get all requests
