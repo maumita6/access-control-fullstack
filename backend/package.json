@@ -16,6 +16,7 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
+    "debug": "^4.4.3",
     "dotenv": "^18.0.6",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.3",
