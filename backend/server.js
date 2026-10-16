@@ -18,10 +18,16 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(error => console.error('MongoDB connection failed', error));
 
-
+app.get('/', (req, res) => {
+  res.json({
+    status: 'success',
+    message: 'Backend Running'
+  });
+});
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+`
 
 // Endpoint : Get all requests
 
