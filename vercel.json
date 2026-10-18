@@ -1,7 +1,17 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/backend/server.js" },
-    { "source": "/(.*)", "destination": "/access-control-ng21/$1" }
+  "builds": [
+    { "src": "backend/server.js", "use": "@vercel/node" },
+    { 
+	"src": "access-control-ng21/package.json", 
+	"use": "@vercel/static-build", 
+	"config": { 
+	"distDir": "dist/access-control-ng21" 
+		} 
+	}
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "backend/server.js" },
+    { "src": "/(.*)", "dest": "access-control-ng21/$1" }
   ]
 }
