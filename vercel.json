@@ -3,12 +3,10 @@
   "builds": [
     { "src": "backend/server.js", "use": "@vercel/node" },
     { 
-	"src": "access-control-ng21/package.json", 
-	"use": "@vercel/static-build", 
-	"config": { 
-	"distDir": "dist/access-control-ng21" 
-		} 
-	}
+      "src": "access-control-ng21/package.json", 
+      "use": "@vercel/static-build", 
+      "config": { "distDir": "dist/access-control-ng21/browser" } 
+    }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "backend/server.js" },
