@@ -5,11 +5,15 @@
     { 
       "src": "access-control-ng21/package.json", 
       "use": "@vercel/static-build", 
-      "config": { "distDir": "dist/access-control-ng21/browser" } 
+      "config": 
+		{ "distDir": "dist/access-control-ng21/browser" 
+		} 
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "backend/server.js" },
-    { "src": "/(.*)", "dest": "access-control-ng21/$1" }
+    { "src": "/(.*)", "dest": "access-control-ng21/$1" },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "access-control-ng21/index.html" }
   ]
 }
