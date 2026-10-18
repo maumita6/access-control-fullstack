@@ -14,9 +14,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(error => console.error('MongoDB connection failed', error));
+const dbURI = process.env.MONGO_URI;
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(dbURI);
+    console.log("Successfully connected to MongoDB!");
+  } catch (err) {
+    console.error("MongoDB Connection Failed! Error details:", err.message);
+    // Safely exit or retry connection instead of letting Node crash unexpectedly
+    process.exit(1);
+  }
+};
+
+connectDB();
 
 app.get('/', (req, res) => {
   res.json({
@@ -27,3 +38,6 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on ${PORT}`);
 });
+
+
+module.exports = app; 
