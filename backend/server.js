@@ -35,9 +35,11 @@ app.get('/', (req, res) => {
     message: 'Backend Running'
   });
 });
-app.listen(PORT, () => {
-  console.log(`Server running on ${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running locally on port ${PORT}`);
+  });
+}
 
 
 module.exports = app; 

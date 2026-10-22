@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface AccessRequest {
   _id?: string;
@@ -22,7 +23,8 @@ export interface AccessRequest {
 export class RequestService {
 
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/api/requests';
+  //private apiUrl = 'http://localhost:3000/api/requests';
+  private apiUrl = environment.apiUrl;
 
   //Returns an array []
   // Get all requests
