@@ -10,8 +10,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist/access-control-ng21/browser",
-        "buildCommand": "cd access-control-ng21 && npm install && npm run build",
-        "developmentCommand": "cd access-control-ng21 && npm run start"
+        "buildCommand": "cd access-control-ng21 && npm install && npm run build"
       }
     }
   ],
@@ -21,16 +20,11 @@
       "dest": "backend/server.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "access-control-ng21/$1",
-      "continue": true
-    },
-    {
       "handle": "filesystem"
     },
     {
       "src": "/(.*)",
-      "dest": "access-control-ng21/index.html"
+      "dest": "access-control-ng21/browser/index.html"
     }
   ]
 }
