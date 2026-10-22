@@ -9,7 +9,7 @@ import { RequestService, AccessRequest } from '../../../core/services/request';
   templateUrl: './request-form.html',
   styleUrl: './request-form.css',
 })
-export class RequestFormComponent  {
+export class RequestFormComponent {
 
   private fb = inject(FormBuilder);
   private requestService = inject(RequestService);
@@ -28,28 +28,29 @@ export class RequestFormComponent  {
   });
 
 
-  onSubmit(){
-    if(this.requestForm.invalid){
+  onSubmit() {
+    if (this.requestForm.invalid) {
       this.requestForm.markAllAsTouched();
       return;
     }
     this.isLoading.set(true);
     this.errorMessage.set(null);
 
-    const payLoad:AccessRequest = this.requestForm.value;
+    const payLoad: AccessRequest = this.requestForm.value;
 
     this.requestService.createRequest(payLoad).subscribe({
-      next: () =>{
-            this.isLoading.set(false);
-            this.requestForm.reset({
+      next: () => {
+        this.isLoading.set(false);
+        this.requestForm.reset({
           system: 'Production Database',
           access: 'READ',
           duration: 48
         });
         console.log(payLoad);
+        console.log('Request submitted successfully');
         this.requestCreated.emit();
       },
-      error:(err:any) =>{
+      error: (err: any) => {
         this.isLoading.set(false);
         this.errorMessage.set('Failed to submit request. Please try again.');
         console.error(err);
