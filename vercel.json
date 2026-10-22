@@ -1,19 +1,36 @@
 {
   "version": 2,
   "builds": [
-    { "src": "backend/server.js", "use": "@vercel/node" },
-    { 
-      "src": "access-control-ng21/package.json", 
-      "use": "@vercel/static-build", 
-      "config": { "distDir": "dist/access-control-ng21/browser" } 
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "access-control-ng21/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/access-control-ng21/browser",
+        "buildCommand": "cd access-control-ng21 && npm install && npm run build",
+        "developmentCommand": "cd access-control-ng21 && npm run start"
+      }
     }
   ],
-  "rewrites": [
-    { "source": "/api/(.*)", 
-	  "destination": "/backend/server.js" },
-    { 
-		"source": "/(.*)", 
-		"destination": "/access-control-ng21/$1" }
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "access-control-ng21/$1",
+      "continue": true
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "access-control-ng21/index.html"
+    }
   ]
 }
-

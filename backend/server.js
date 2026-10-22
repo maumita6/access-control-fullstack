@@ -35,11 +35,13 @@ app.get('/', (req, res) => {
     message: 'Backend Running'
   });
 });
+// Only listen to a port if running locally
 if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Server running locally on port ${PORT}`);
   });
 }
 
-
+// Crucial for Vercel to pick up your server routing
 module.exports = app; 
