@@ -38,6 +38,8 @@ export class RequestService {
   }
 
   // Create a request
+  //POST request return a single object, not an array, so AccessRequest not AccessRequest[]
+
   createRequest(payloads: AccessRequest): Observable<AccessRequest> {
     return this.http.post<AccessRequest>(this.apiUrl, payloads);
   }
