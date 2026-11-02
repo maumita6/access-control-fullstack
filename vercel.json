@@ -1,26 +1,18 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "access-control-ng21/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/browser"
-      }
-    }
-  ],
+    "buildCommand": "cd access-control-ng21 && npm install && npm run build",
+  "outputDirectory": "access-control-ng21/dist/browser",
   "routes": [
     {
       "src": "/api(.*)",
       "dest": "backend/server.js"
     },
     {
+      "handle": "filesystem"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/access-control-ng21/dist/browser/index.html"
+      "dest": "/index.html"
     }
   ]
 }
