@@ -9,7 +9,7 @@
       "src": "access-control-ng21/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "access-control-ng21/dist/access-control-ng21/browser"
+        "distDir": "dist/access-control-ng21/browser"
       }
     }
   ],
@@ -23,7 +23,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/access-control-ng21/dist/access-control-ng21/browser/index.html"
+      "dest": "/access-control-ng21/browser/index.html"
     }
   ]
 }
