@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd access-control-ng21 && npm run build",
+  "buildCommand": "cd access-control-ng21 && npm install && npm run build",
   "outputDirectory": "access-control-ng21/dist/access-control-ng21/browser",
   "routes": [
     {
