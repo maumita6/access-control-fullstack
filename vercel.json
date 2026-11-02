@@ -11,7 +11,7 @@
       "src": "access-control-ng21/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist/access-control-ng21/browser"
+        "distDir": "dist/browser"
       }
     }
   ],
