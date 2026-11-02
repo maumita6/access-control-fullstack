@@ -23,7 +23,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/access-control-ng21/dist/access-control-ng21/browser/index.html"
     }
   ]
 }
