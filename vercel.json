@@ -1,7 +1,5 @@
 {
   "version": 2,
-   "buildCommand": "cd access-control-ng21 && npm install && npm run build",
-  "outputDirectory": "access-control-ng21/dist/browser",
   "builds": [
     {
       "src": "backend/server.js",
@@ -21,10 +19,8 @@
       "dest": "backend/server.js"
     },
     {
-      "handle": "filesystem"
-    },
-    {
       "src": "/(.*)",
-		"dest": "/access-control-ng21/dist/browser/index.html"    }
+      "dest": "/access-control-ng21/dist/browser/index.html"
+    }
   ]
 }
