@@ -1,7 +1,7 @@
 {
   "name": "accesscontrol",
   "version": "1.0.0",
-  "description": "Full-stack application built with an Angular frontend and a Node.js/MongoDB backend.",
+  "description": "Full-stack application built with an Angular frontend and a Node.js",
   "main": "index.js",
   "scripts": {
     "build": "cd access-control-ng21 && npm install && npm run build",
