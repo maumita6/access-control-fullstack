@@ -1,5 +1,7 @@
 {
   "version": 2,
+   "buildCommand": "cd access-control-ng21 && npm install && npm run build",
+  "outputDirectory": "access-control-ng21/dist/browser",
   "builds": [
     {
       "src": "backend/server.js",
@@ -9,7 +11,7 @@
       "src": "access-control-ng21/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "access-control-ng21/dist/access-control-ng21/browser"
+        "distDir": "dist/access-control-ng21/browser"
       }
     }
   ],
