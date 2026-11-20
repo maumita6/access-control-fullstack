@@ -4,29 +4,47 @@ const mongoose = require('mongoose');
 const Request = require('./models/Request');
 require('dotenv').config();
 
+const app = express();
+
+
 const PORT = process.env.PORT || 3000;
 
 
 console.log('Mongo URI:', process.env.MONGO_URI);
 
-const app = express();
+const corsOptions = {
+  origin: [
+    'https://access-control-frontend-virid.vercel.app',
+    'https://access-control-fullstack.vercel.app',
+    'http://localhost:4200'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
+app.options('/{*splat}', cors(corsOptions));
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const dbURI = process.env.MONGO_URI;
-
+let isConnected = false;
 const connectDB = async () => {
+  if (isConnected) return;
   try {
-    await mongoose.connect(dbURI);
-    console.log("Successfully connected to MongoDB!");
+    const db = await mongoose.connect(process.env.MONGO_URI);
+    isConnected = db.connections[0].readyState === 1;
+    console.log('Successfully connected to MongoDB!');
   } catch (err) {
-    console.error("MongoDB Connection Failed! Error details:", err.message);
-    process.exit(1);
+    console.error('MongoDB Connection Failed:', err.message);
   }
 };
 
-connectDB();
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 app.get('/', (req, res) => {
   res.json({
@@ -34,6 +52,8 @@ app.get('/', (req, res) => {
     message: 'Backend Running'
   });
 });
+
+const dbURI = process.env.MONGO_URI;
 
 
 // Endpoint : Get all requests
@@ -152,7 +172,6 @@ app.delete('/api/requests/:id', async (req, res) => {
       return res.status(404).json({ error: 'Request to delete not found' });
     }
     console.log('Request deleted successfully', res, req.params.id);
-    //res.json(deletedRequest);
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -160,14 +179,11 @@ app.delete('/api/requests/:id', async (req, res) => {
 });
 
 
-// Only listen to a port if running locally
 if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 3003;
   app.listen(PORT, () => {
     console.log(`Server running locally on port ${PORT}`);
   });
 }
 
-
-// Crucial for Vercel to pick up your server routing
-module.exports = app; 
+module.exports = app;
