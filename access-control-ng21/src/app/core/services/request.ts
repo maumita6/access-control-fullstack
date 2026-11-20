@@ -24,38 +24,38 @@ export class RequestService {
 
   private http = inject(HttpClient);
   //private apiUrl = 'http://localhost:3000/api/requests';
-  private apiUrl = environment.apiUrl;
+  private apiURL = `${environment.apiUrl}/requests`
 
-  //Returns an array []
+
   // Get all requests
   getRequests(): Observable<AccessRequest[]> {
-    return this.http.get<AccessRequest[]>(this.apiUrl);
+    return this.http.get<AccessRequest[]>(this.apiURL);
   }
 
   // Get single request 
   getRequestById(id: string): Observable<AccessRequest> {
-    return this.http.get<AccessRequest>(`${this.apiUrl}/${id}`);
+    return this.http.get<AccessRequest>(`${this.apiURL}/${id}`);
   }
 
   // Create a request
   //POST request return a single object, not an array, so AccessRequest not AccessRequest[]
 
   createRequest(payloads: AccessRequest): Observable<AccessRequest> {
-    return this.http.post<AccessRequest>(this.apiUrl, payloads);
+    return this.http.post<AccessRequest>(`${this.apiURL}`, payloads);
   }
 
   // Update a request
   updateManagerApproval(id: string, decision: 'APPROVED' | 'REJECTED'): Observable<AccessRequest> {
-    return this.http.patch<AccessRequest>(`${this.apiUrl}/${id}/manager-approval`, { decision });
+    return this.http.patch<AccessRequest>(`${this.apiURL}/${id}/manager-approval`, { decision });
   }
 
   updateSecurityApproval(id: string, decision: 'APPROVED' | 'REJECTED'): Observable<AccessRequest> {
-    return this.http.patch<AccessRequest>(`${this.apiUrl}/${id}/security-approval`, { decision });
+    return this.http.patch<AccessRequest>(`${this.apiURL}/${id}/security-approval`, { decision });
   }
 
   // Delete a request
   deleteRequest(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiURL}/${id}`);
   }
 
 
