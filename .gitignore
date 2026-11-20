@@ -22,7 +22,7 @@ dist/
 /out-tsc
 
 # OS & Editor files
-..DS_Store
+.DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini
