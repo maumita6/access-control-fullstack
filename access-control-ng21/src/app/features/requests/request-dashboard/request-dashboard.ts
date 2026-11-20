@@ -38,7 +38,6 @@ export class RequestDashboardComponent implements OnInit {
 
     this.requestService.deleteRequest(id).subscribe({
       next: () => {
-
         this.requests.update(requests =>
           requests.filter(req => req._id !== id)
         );
