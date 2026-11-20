@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '/api/requests' 
+  apiUrl: 'https://access-control-fullstack.vercel.app/'
 };
