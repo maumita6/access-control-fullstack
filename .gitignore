@@ -23,10 +23,18 @@ dist/
 
 # OS & Editor files
 .DS_Store
+.tsbuildinfo
 Thumbs.db
 ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
+
+
+# Angular cache
+/.angular/cache
+
+# TypeScript build info
+*.tsbuildinfo
 
 
 .vscode/
